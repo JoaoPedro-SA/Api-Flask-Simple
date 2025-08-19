@@ -1,5 +1,3 @@
-import os
-import sys 
 from controle.controle import *
 import flask
 
