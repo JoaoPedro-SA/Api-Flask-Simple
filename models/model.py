@@ -1,3 +1,5 @@
+from flask import jsonify, request
+
 dados = { 
     "usuarios": [
         {"id": 1, "nome": "Antônio", "email": "antonio@email.com"},
@@ -13,6 +15,27 @@ dados = {
     ]
 }
 
+def geradorDeId(dados):
+    maiorID = 0
+    for i in dados["usuarios"]:
+        if i["id"] > maiorID:
+            maiorID = i
+    return maiorID+1
+
 
 def teste():
     return {"message": "Hello from the model!"} 
+
+def listaUsuario(): 
+    return jsonify(dados["usuarios"])
+
+def pegaUsuario(idBuscado):
+    for i in dados["usuarios"]:
+        if i["id"] == idBuscado:
+            return jsonify(i)
+        
+def insereUsuario(usuario):
+    idNovo = geradorDeId(dados)
+    usuario = request.get_json()
+    
+    dados["usuarios"].append(usuario)
