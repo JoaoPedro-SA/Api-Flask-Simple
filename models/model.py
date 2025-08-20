@@ -16,11 +16,10 @@ dados = {
 }
 
 def geradorDeId(dados):
-    maiorID = 0
-    for i in dados["usuarios"]:
-        if i["id"] > maiorID:
-            maiorID = i
-    return maiorID+1
+    if len(dados["usuarios"]) == 0:
+        return 1
+    else:
+        return dados["usuarios"][-1]["id"] + 1
 
 
 def teste():
@@ -34,8 +33,26 @@ def pegaUsuario(idBuscado):
         if i["id"] == idBuscado:
             return jsonify(i)
         
-def insereUsuario(usuario):
-    idNovo = geradorDeId(dados)
-    usuario = request.get_json()
-    
-    dados["usuarios"].append(usuario)
+def insereUsuario(name, email):
+    novoUsuario = {
+        "id": geradorDeId(dados),
+        "nome": name,
+        "email": email
+    }
+    dados["usuarios"].append(novoUsuario)
+    return jsonify(novoUsuario)
+
+def atualizaUsuario(id, name, email):
+    for i in dados["usuarios"]:
+        if i["id"] == id:
+            i["nome"] = name
+            i["email"] = email
+            return jsonify(i)
+    return jsonify({"message": "Usuário não encontrado"}), 404
+
+def deletaUsuario(id):
+    for i, usuario in enumerate(dados["usuarios"]):
+        if usuario["id"] == id:
+            del dados["usuarios"][i]
+            return jsonify({"message": "Usuário deletado com sucesso"})
+    return jsonify({"message": "Usuário não encontrado"}), 404

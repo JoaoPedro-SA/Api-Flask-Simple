@@ -17,5 +17,20 @@ def get_user(id):
 
 @url.route("/user",methods=["POST"])
 def post_user():
-        response = model.insereUsuario()
+        name = flask.request.args.get("nome")
+        email = flask.request.args.get("email")
+        response = model.insereUsuario(name, email)
         return response
+
+@url.route("/users/<int:user_id>", methods=["PUT"])
+def update_user(user_id):
+    name = flask.request.args.get("nome")
+    email = flask.request.args.get("email")
+    response = model.atualizaUsuario(user_id, name, email)
+    return response
+        
+@url.route("/users/<int:user_id>",methods=["DELETE"])
+def delete_user(user_id):
+        response = model.deletaUsuario(user_id)
+        return response
+        
