@@ -2,7 +2,7 @@
 
 Api para atividade de Full Stack
 
-##Grupo
+## Grupo
 
 - Joao Pedro Silva Antunes
 - Fernanda Aparecida Figueiredo da Silva
