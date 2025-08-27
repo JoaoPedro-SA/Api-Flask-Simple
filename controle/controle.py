@@ -3,6 +3,10 @@ from models import model
 
 url = flask.Blueprint("app_pb", __name__)
 
+@url.route("/teste",methods=["GET"])
+def teste():
+       return {"TESTE":"TESTE"}
+
 @url.route("/users",methods=["GET"])
 def get_users():
         response = model.listaUsuario()

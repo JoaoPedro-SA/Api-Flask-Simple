@@ -2,8 +2,8 @@ from flask import jsonify, request
 
 dados = { 
     "tarefas": [
-        {"id": 1, "title": "Estudar", "Description": "Estudar coisas", "status": "completed", "user_id":"3"},
-        {"id": 2, "title": "Andar", "Description": "Andar em coisas", "status": "incmpleted", "user_id":"2"},
+        {"id": 1, "title": "Estudar", "Description": "Estudar coisas", "status": "completo", "user_id":"3"},
+        {"id": 2, "title": "Andar", "Description": "Andar em coisas", "status": "incompleto", "user_id":"2"},
     ]
 }
 
@@ -33,14 +33,14 @@ def insereTarefa(title, description, status, user_id):
     dados["tarefas"].append(novaTarefa)
     return jsonify(novaTarefa)
 
-def atualizTarefa(id, title, description, status, user_id):
+def atualizaTarefa(id):
     for i in dados["tarefas"]:
         if i["id"] == id:
-            i["title"] = title
-            i["description"] = description
-            i["status"] = status
-            i["user_id"] = user_id
-            
+            if i["status"] == "completo" :
+                i["status"] = "incompleto"
+
+            elif i["status"] == "incompleto":
+                i["status"] = "completo"
 
             return jsonify(i)
     return jsonify({"message": "Tarefa não encontrada"}), 404
