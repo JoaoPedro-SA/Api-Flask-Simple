@@ -1,11 +1,16 @@
+import os
+import flask
 from controle.controle import *
 from controle.task import *
-import flask
 
-app = flask.Flask(__name__)
+app = Flask(__name__, template_folder=os.path.join('view', 'templates'))
 
 app.register_blueprint(url)
 app.register_blueprint(url2)
+
+app.add_url_rule('/', 'index', TaskController.index)
+app.add_url_rule('/contact', 'contact', TaskController.contact, methods=['GET', 'POST'])
+
 
 if __name__ == "__main__":
     app.run(debug=True)

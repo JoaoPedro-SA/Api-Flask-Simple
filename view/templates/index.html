@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Lista de Tarefas</title>
+  
+        <style>
+            table,th,td {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+<body>
+    <h2>Bem vindo, confira a lista de tarefas</h2>
+    <table>
+        <tr>
+            <th>Titulo</th>
+            <th>Descrição</th>
+            <th>Status</th>
+            <th>Responsavel</th>
+        </tr>
+        <tbody>
+             {% for tarefa in tasks %}
+            <tr>
+                <td>{{ tarefa.title }}</td>
+                <td>{{ tarefa.description }}</td>
+                <td>{{ tarefa.status }}</td>
+                <td>{{ tarefa.user_id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    <button type="button" onclick="window.location.href='contact'">Cadastrar Nova Tarefa </button>
+</body>
+<footer>
+</footer>
+</html>

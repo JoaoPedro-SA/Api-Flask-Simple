@@ -1,5 +1,7 @@
-import flask 
+from flask import *
+import flask
 from models import model
+
 
 url = flask.Blueprint("app_pb", __name__)
 
