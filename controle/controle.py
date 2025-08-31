@@ -9,32 +9,34 @@ def teste():
 
 @url.route("/users",methods=["GET"])
 def get_users():
-        response = model.listaUsuario()
+        response = model.listaUsuarioSQL()
         return response
 
 
 @url.route("/user/<int:id>",methods=["GET"])
 def get_user(id):
-        response = model.pegaUsuario(id)
+        response = model.pegaUsuarioSQL(id)
         return response
 
 
-@url.route("/user",methods=["POST"])
+@url.route("/user",methods=["POST"], strict_slashes=False)
 def post_user():
         name = flask.request.args.get("nome")
         email = flask.request.args.get("email")
-        response = model.insereUsuario(name, email)
+        response = model.insereUsuarioSQL(name, email)
         return response
 
-@url.route("/users/<int:user_id>", methods=["PUT"])
-def update_user(user_id):
+@url.route("/users", methods=["PUT"], strict_slashes=False)
+def update_user():
     name = flask.request.args.get("nome")
     email = flask.request.args.get("email")
-    response = model.atualizaUsuario(user_id, name, email)
+    user_id = flask.request.args.get("user_id")
+    response = model.atualizarUsuarioSQL(user_id, name, email)
     return response
         
-@url.route("/users/<int:user_id>",methods=["DELETE"])
-def delete_user(user_id):
-        response = model.deletaUsuario(user_id)
+@url.route("/users",methods=["DELETE"], strict_slashes=False)
+def delete_user():
+        user_id = flask.request.args.get("user_id")
+        response = model.deletarUsuarioSQL(user_id)
         return response
         

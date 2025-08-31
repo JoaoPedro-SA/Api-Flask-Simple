@@ -1,4 +1,5 @@
 from flask import jsonify, request
+import models.bancoSQL as banco
 
 dados = { 
     "usuarios": [
@@ -28,10 +29,33 @@ def teste():
 def listaUsuario(): 
     return jsonify(dados["usuarios"])
 
+def listaUsuarioSQL(): 
+    response = []
+    try: 
+        usuario = banco.session.query(banco.User).all()
+        for u in usuario: 
+            response.append({"id": u.id, "nome": u.name, "email": u.email})
+    except Exception as e:
+        response = {"erro": str(e)}
+    finally:
+        banco.session.close()
+    return jsonify(response)
+
 def pegaUsuario(idBuscado):
     for i in dados["usuarios"]:
         if i["id"] == idBuscado:
             return jsonify(i)
+        
+def pegaUsuarioSQL(idBuscado):
+    usuario = banco.session.query(banco.User).filter_by(id=idBuscado).first()
+    try:
+        if usuario.id == idBuscado:
+            response = {"id": usuario.id, "nome": usuario.name, "email": usuario.email}
+    except Exception as e: 
+        response = {"erro": str(e)}
+    finally:
+        banco.session.close()
+    return jsonify(response)
         
 def insereUsuario(name, email):
     novoUsuario = {
@@ -42,6 +66,19 @@ def insereUsuario(name, email):
     dados["usuarios"].append(novoUsuario)
     return jsonify(novoUsuario)
 
+def insereUsuarioSQL(name,email):
+    novo_usuario = banco.User(name=name, email=email)
+    try:
+        banco.session.add(novo_usuario)
+        banco.session.commit()
+        response = {"id": novo_usuario.id, "nome": novo_usuario.name, "email": novo_usuario.email}
+    except Exception as e:
+        banco.session.rollback()
+        response = {"erro": str(e)}
+    finally:
+        banco.session.close()
+    return jsonify(response)
+
 def atualizaUsuario(id, name, email):
     for i in dados["usuarios"]:
         if i["id"] == id:
@@ -50,9 +87,41 @@ def atualizaUsuario(id, name, email):
             return jsonify(i)
     return jsonify({"message": "Usuário não encontrado"}), 404
 
+def atualizarUsuarioSQL(id,name,email):
+    try:
+        usuario = banco.session.query(banco.User).filter_by(id=id).first()
+        if usuario:
+            usuario.name = name
+            usuario.email = email
+            banco.session.commit()
+            response = {"id": usuario.id, "nome": usuario.name, "email": usuario.email}
+        else:
+            response = {"message": "Usuário não encontrado"}
+    except Exception as e:
+        banco.session.rollback()
+        response = {"erro": str(e)}
+    finally:
+        banco.session.close()
+    return jsonify(response)
+         
 def deletaUsuario(id):
     for i, usuario in enumerate(dados["usuarios"]):
         if usuario["id"] == id:
             del dados["usuarios"][i]
             return jsonify({"message": "Usuário deletado com sucesso"})
     return jsonify({"message": "Usuário não encontrado"}), 404
+
+def deletarUsuarioSQL(id):
+    try: 
+        status = banco.session.query(banco.User).filter_by(id=id).delete()
+        banco.session.commit()
+        if status:
+            response = {"message": "Usuário deletado com sucesso"}
+        else:
+            response = {"message": "Usuário não encontrado"}
+    except Exception as e:
+        banco.session.rollback()
+        response = {"erro": str(e)}
+    finally:
+        banco.session.close()
+    return jsonify(response)    
