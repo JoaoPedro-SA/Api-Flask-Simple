@@ -1,0 +1,4 @@
+Flask
+# Se usar SQLite puro, não precisa instalar nada extra, pois já vem com Python.
+# Caso use Flask-SQLAlchemy:
+# Flask-SQLAlchemy
