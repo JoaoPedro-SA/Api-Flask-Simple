@@ -52,11 +52,11 @@ def atualizaTarefaSQL(id):
         tarefa = banco.session.query(banco.Task).filter_by(id=id).first()
         if tarefa:
             if tarefa.status == "completo":
-                tarefa.status = "incompleto"
-            elif tarefa.status == "incompleto":
+                tarefa.status = "pendente"
+            elif tarefa.status == "pendente":
                 tarefa.status = "completo"
             else: 
-                tarefa.status = "incompleto"
+                tarefa.status = "pendente"
             banco.session.commit()
             response = {"id": tarefa.id, "title": tarefa.title , "description": tarefa.description, "status": tarefa.status, "user_id": tarefa.user_id}
         else:

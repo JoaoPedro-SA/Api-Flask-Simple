@@ -1,5 +1,6 @@
 from flask import *
 import flask 
+from models.task import atualizaTarefaSQL
 from models.bancoSQL import Task, session
 
 url2 = flask.Blueprint("app_pb2", __name__)
@@ -38,9 +39,9 @@ def get_tasks():
 
 @url2.route("/task",methods=["GET"], strict_slashes=False)
 def get_task():
-        id = flask.request.args.get("id")
-        response = Task.pegaTarefaSQL(id)
-        return response
+        data = request.get_json()  # recebe JSON do JS
+        task_id = data.get("task_id")
+        return atualizaTarefaSQL(task_id)
 
 
 @url2.route("/create_task",methods=["POST"], strict_slashes=False)
@@ -52,10 +53,12 @@ def post_task():
         response = Task.insereTarefaSQL(title, description, status, user_id)
         return response
 
-@url2.route("/upadate_task_status", methods=["PUT"], strict_slashes=False)
+@url2.route("/update_task_status", methods=["PUT"], strict_slashes=False)
 def update_task():
-        task_id = flask.request.args.get("task_id")
-        response = Task.atualizaTarefaSQL(task_id)
+        data = request.get_json()  
+        task_id = data.get('task_id') 
+        response = atualizaTarefaSQL(task_id)
+        
         return response
         
 @url2.route("/delete_task",methods=["DELETE"])

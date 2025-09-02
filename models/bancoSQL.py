@@ -8,7 +8,7 @@ class Task(Base):
      id = Column(Integer, primary_key=True)
      title = Column(String, nullable=False)
      description = Column(String, nullable=False)
-     status = Column(String, default='pending')
+     status = Column(String, default='pendente')
      user_id = Column(Integer, nullable=False)
      
 

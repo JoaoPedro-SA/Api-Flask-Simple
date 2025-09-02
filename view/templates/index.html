@@ -16,11 +16,13 @@
     <h2>Bem vindo, confira a lista de tarefas</h2>
     <table>
       <tr>
-        <th>ID</th>
+        <th>id</th>
+
         <th>Descrição</th>
         <th>Status</th>
         <th>Responsavel</th>
         <th>id_usuario</th>
+        <th>Atualizar Status</th>
       </tr>
       <tbody>
         {% for tarefa in tasks %}
@@ -30,14 +32,33 @@
           <td>{{ tarefa.description }}</td>
           <td>{{ tarefa.status }}</td>
           <td>{{ tarefa.user_id }}</td>
+          <td> <button onclick="updateStatus({{ tarefa.id }})">Atualizar Status</button></td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
 
-    <button type="button" onclick="window.location.href='contact'">
+    <button type="button" onclick="window.location.href='completo'">
       Cadastrar Nova Tarefa
     </button>
   </body>
-  <footer></footer>
+    <script>
+        function updateStatus(taskId) {
+    fetch('/update_task_status', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'  
+        },
+        body: JSON.stringify({ task_id: taskId }) 
+    })
+    .then(response => response.json()) 
+    .then(data => {
+        alert('Status atualizado para: ' + data.status); 
+        location.reload();
+    })
+    .catch(error => console.error('Erro:', error));
+}
+
+</script>
+  </body>
 </html>
