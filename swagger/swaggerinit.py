@@ -7,4 +7,3 @@ api = Api(
     doc="/docs",        #acessar a interface Swagger
     prefix="/api",      #base da api
 )
-.

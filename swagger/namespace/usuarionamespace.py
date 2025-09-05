@@ -15,7 +15,7 @@ class UsuarioList(Resource):
     @api.marshal_list_with(usuario_model)
     def get(self):
         """Lista todos os usuários"""
-        return model.listaUsuarioSQL().json  # ajustei para retornar dict
+        return model.listaUsuarioSQL().json  
 
     @api.expect(usuario_model)
     @api.marshal_with(usuario_model, code=201)

@@ -46,4 +46,3 @@ class Tarefa(Resource):
     def delete(self, id):
         """Deleta uma tarefa"""
         return task.deletaTarefaSQL(id).json, 204
-.
