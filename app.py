@@ -1,7 +1,11 @@
 import os
+import sys
 import flask
 from controle.controle import *
 from controle.task import *
+
+# Adiciona o diretório pai ao caminho do sistema para permitir imports relativos
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 app = Flask(__name__, template_folder=os.path.join('view', 'templates'))
 

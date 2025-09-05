@@ -1,4 +1,4 @@
-from .swagger_init import api
+from .swaggerinit import api
 
 def configure_swagger(app):
     from .namespace.usuarionamespace import api as usuarios_ns
