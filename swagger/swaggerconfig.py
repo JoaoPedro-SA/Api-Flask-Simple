@@ -6,7 +6,7 @@ def configure_swagger(app):
     
     api.init_app(app)  
   
-    api.add_namespace(usuarios_ns, path="/usuarios")
-    api.add_namespace(tarefas_ns, path="/tarefas")
+    api.add_namespace(usuarios_ns, path="/usuarios") #testar rota -> http://localhost:5000/api/usuarios
+    api.add_namespace(tarefas_ns, path="/tarefas") #testar rota -> http://localhost:5000/api/tarefas
 
     api.mask_swagger = False

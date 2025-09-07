@@ -4,6 +4,6 @@ api = Api(
     title="API de dados",
     version="1.0",
     description="Operações com usuários",
-    doc="/docs",        #acessar a interface Swagger
+    doc="/docs",        #rota documentação swagger http://localhost:5000/docs
     prefix="/api",      #base da api
 )
